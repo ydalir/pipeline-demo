@@ -1,0 +1,25 @@
+name: Pull request
+on:
+  pull_request: #Only trigger this workflow on pull requests
+    branches: [ "master" ]
+jobs:
+  test:
+    name: Test everything
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Run a one-line script
+        run: echo Hello, world!
+  report:
+    needs:
+    - test
+    name: Report PR ready
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: someimportantcompany/github-actions-slack-message@v1
+        id: slack
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          text: "PR ready!:smile: Please review it :pray:"
+          color: info # Slack already-supported color
+
+
